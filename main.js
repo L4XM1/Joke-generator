@@ -8,9 +8,19 @@ const options = {
 
 document.getElementById("btn").addEventListener("click", function () {
   fetch("https://daddyjokes.p.rapidapi.com/random", options)
-    .then((response) => response.json())
     .then((response) => {
-      document.getElementById("punchline").textContent = response.joke;
+      // if (response.ok === false && response.status === 429) {
+      //   throw new Error("Sorry, not today");
+      // }
+      return response.json();
+    })
+    .then((response) => {
+      if (response.joke) {
+        document.getElementById("punchline").textContent = response.joke;
+      } else {
+        document.getElementById("punchline").textContent =
+          "Come back tomorrow to read more jokes.";
+      }
     })
     .catch((err) => console.error(err));
 });
