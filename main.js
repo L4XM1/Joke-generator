@@ -6,7 +6,7 @@ const options = {
   },
 };
 
-document.getElementById("btn").addEventListener("click", function () {
+document.getElementById("btn").addEventListener("click", function() {
   fetch("https://daddyjokes.p.rapidapi.com/random", options)
     .then((response) => {
       // if (response.ok === false && response.status === 429) {
