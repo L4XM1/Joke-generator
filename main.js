@@ -6,21 +6,39 @@ const options = {
   },
 };
 
-document.getElementById("btn").addEventListener("click", function() {
+const icons = [
+  "fa-face-grin-stars",
+  "fa-face-grin-tears",
+  "fa-face-laugh",
+  "fa-face-grin-squint",
+  "fa-face-grin-beam",
+  "fa-face-grin-beam-sweat",
+];
+const iElement = document.getElementById("icon");
+const spinner = document.getElementById("spinner");
+const punchline = document.getElementById("punchline");
+const joke = document.getElementById("joke");
+const btn = document.getElementById("btn");
+
+function getJoke() {
+  spinner.classList.remove("hidden");
   fetch("https://daddyjokes.p.rapidapi.com/random", options)
     .then((response) => {
-      // if (response.ok === false && response.status === 429) {
-      //   throw new Error("Sorry, not today");
-      // }
       return response.json();
     })
-    .then((response) => {
-      if (response.joke) {
-        document.getElementById("punchline").textContent = response.joke;
+    .then((data) => {
+      if (data.joke) {
+        joke.textContent = data.joke;
+        punchline.classList.remove("hidden");
+        const index = Math.floor(Math.random() * icons.length);
+        iElement.className = icons[index] + " fa-solid text-teal-600 text-6xl";
       } else {
-        document.getElementById("punchline").textContent =
-          "Come back tomorrow to read more jokes.";
+        joke.textContent = "Come back tomorrow to read more jokes.";
+        joke.classList.add("text-center");
       }
+      spinner.classList.add("hidden");
     })
     .catch((err) => console.error(err));
-});
+}
+
+btn.addEventListener("click", getJoke);
